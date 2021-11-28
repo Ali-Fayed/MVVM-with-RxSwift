@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import MBProgressHUD
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -78,4 +79,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-
