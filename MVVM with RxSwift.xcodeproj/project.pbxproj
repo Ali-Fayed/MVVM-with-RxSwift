@@ -26,6 +26,7 @@
 		EAD5C0482753990300CC2766 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD5C0472753990300CC2766 /* ViewModel.swift */; };
 		EAD5C04D2753AD9D00CC2766 /* Alerts+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD5C04C2753AD9D00CC2766 /* Alerts+Ext.swift */; };
 		EAD5C04F2753ADAB00CC2766 /* LoadingIndicator+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD5C04E2753ADAB00CC2766 /* LoadingIndicator+Ext.swift */; };
+		EAD5C0572753C5BA00CC2766 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD5C0562753C5BA00CC2766 /* SectionModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		EAD5C0472753990300CC2766 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		EAD5C04C2753AD9D00CC2766 /* Alerts+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alerts+Ext.swift"; sourceTree = "<group>"; };
 		EAD5C04E2753ADAB00CC2766 /* LoadingIndicator+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadingIndicator+Ext.swift"; sourceTree = "<group>"; };
+		EAD5C0562753C5BA00CC2766 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				EAD5C0412753983900CC2766 /* Model.swift */,
+				EAD5C0562753C5BA00CC2766 /* SectionModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				EAD5C0442753984400CC2766 /* UseCase.swift in Sources */,
 				EAD5C00B275397EE00CC2766 /* AppDelegate.swift in Sources */,
 				EAD5C00D275397EE00CC2766 /* SceneDelegate.swift in Sources */,
+				EAD5C0572753C5BA00CC2766 /* SectionModel.swift in Sources */,
 				EAD5C0482753990300CC2766 /* ViewModel.swift in Sources */,
 				EAD5C0462753985B00CC2766 /* UseCaseProtocol.swift in Sources */,
 			);

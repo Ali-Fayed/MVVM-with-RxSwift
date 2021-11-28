@@ -30,10 +30,19 @@ class ViewController: UIViewController {
     }
     //MARK: - TableView
     func bindDataToTableView() {
-        viewModel.usersListObservable.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { [weak self] row, users, cell in
-            guard let self = self else { return }
-            cell.textLabel?.text = self.viewModel.newsList[row].userName
-        }.disposed(by: bag)
+        let dataSource = RxTableViewSectionedReloadDataSource<SectionModel>(
+            configureCell: { (_, tableView, indexPath, items) in
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+                cell.textLabel?.text = items.userName
+                return cell
+            },
+            titleForHeaderInSection: { dataSource, sectionIndex in
+                return dataSource[sectionIndex].header
+            }
+        )
+        viewModel.usersListObservable
+        .bind(to: tableView.rx.items(dataSource: dataSource))
+        .disposed(by: bag)
     }
     func subscribeToTableViewCellSelection() {
         /// didSelectRow

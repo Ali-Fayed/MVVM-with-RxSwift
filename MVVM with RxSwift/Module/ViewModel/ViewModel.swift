@@ -14,11 +14,12 @@ class ViewModel {
     var observer: AnyCancellable?
     let useCase: UseCaseProtocol
     var newsList = [Users]()
+    var tableSectionModel = [SectionModel]()
     var loadingBehaviour = BehaviorRelay<Bool>(value: false)
     var errorBehaviour = BehaviorRelay<Bool>(value: false)
     var errorString = ""
-    private let usersListSubjet = PublishSubject<[Users]>()
-    var usersListObservable: Observable<[Users]> {
+    private let usersListSubjet = PublishSubject<[SectionModel]>()
+    var usersListObservable: Observable<[SectionModel]> {
         return usersListSubjet
     }
     init(useCase: UseCaseProtocol = UseCase.shared) {
@@ -39,7 +40,8 @@ class ViewModel {
             }, receiveValue: { [weak self] model in
                 guard let self = self else {return}
                 self.newsList.append(contentsOf: model)
-                self.usersListSubjet.onNext(self.newsList)
+                self.tableSectionModel.append(SectionModel(header: "Users", items: self.newsList))
+                self.usersListSubjet.onNext(self.tableSectionModel)
             })
     }
 }
