@@ -15,13 +15,13 @@ class ViewModel {
     let useCase: UseCaseProtocol
     var newsList = [Users]()
     var tableSectionModel = [SectionModel]()
-    var loadingBehaviour = BehaviorRelay<Bool>(value: false)
-    var errorBehaviour = BehaviorRelay<Bool>(value: false)
-    var errorString = ""
     private let usersListSubjet = PublishSubject<[SectionModel]>()
     var usersListObservable: Observable<[SectionModel]> {
         return usersListSubjet
     }
+    var loadingBehaviour = BehaviorRelay<Bool>(value: false)
+    var errorBehaviour = BehaviorRelay<Bool>(value: false)
+    var errorString = ""
     init(useCase: UseCaseProtocol = UseCase.shared) {
         self.useCase = useCase
     }
@@ -39,9 +39,12 @@ class ViewModel {
                 }
             }, receiveValue: { [weak self] model in
                 guard let self = self else {return}
-                self.newsList.append(contentsOf: model)
-                self.tableSectionModel.append(SectionModel(header: "Users", items: self.newsList))
+                self.newsList = model
+                self.tableSectionModel.append(SectionModel(header: "TopUsers", items: self.newsList.dropLast(25)))
+                self.tableSectionModel.append(SectionModel(header: "MiddleUsers", items: self.newsList.dropLast(28).reversed()))
+                self.tableSectionModel.append(SectionModel(header: "LastUsers", items: self.newsList.dropLast(26).reversed()))
                 self.usersListSubjet.onNext(self.tableSectionModel)
+                self.usersListSubjet.onCompleted()
             })
     }
 }
