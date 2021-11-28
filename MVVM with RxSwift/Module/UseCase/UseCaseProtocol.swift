@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol UseCaseProtocol {
-    func fetchData() -> AnyPublisher<[Users], Never>
+    func fetchData() -> AnyPublisher<[Users], Error>
 }

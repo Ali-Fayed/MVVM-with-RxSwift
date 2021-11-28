@@ -14,16 +14,44 @@ import RxDataSources
 class ViewController: UIViewController {
     //MARK: - Props
     @IBOutlet weak var tableView: UITableView!
-    let bag = DisposeBag()
-    var viewModel = ViewModel()
-    var observer: AnyCancellable?
+    private let bag = DisposeBag()
+    private let refreshControl = UIRefreshControl()
+    private var viewModel = ViewModel()
+    private var observer: AnyCancellable?
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.fetchData()
         bindDataToTableView()
+        tableViewRefreshControl()
+        subscribeToTableViewCellSelection()
         subscribeToErrorBehaviour()
         subsribeToLoadingBehaviour()
+    }
+    //MARK: - TableView
+    func bindDataToTableView() {
+        viewModel.usersListObservable.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { [weak self] row, users, cell in
+            guard let self = self else { return }
+            cell.textLabel?.text = self.viewModel.newsList[row].userName
+        }.disposed(by: bag)
+    }
+    func subscribeToTableViewCellSelection() {
+        /// didSelectRow
+        Observable
+            .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(Users.self))
+            .bind { [weak self] indexPath, users in
+                guard let self = self else { return }
+                self.tableView.deselectRow(at: indexPath, animated: true)
+                print(users)
+            }.disposed(by: bag)
+    }
+    func tableViewRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    @objc func didPullToRefresh() {
+        viewModel.fetchData()
+        refreshControl.endRefreshing()
     }
     //MARK: - Loading
     func subsribeToLoadingBehaviour() {
@@ -45,15 +73,10 @@ class ViewController: UIViewController {
         viewModel.errorBehaviour.subscribe(onNext: { [weak self] (isResponseFailed) in
             guard let self = self else { return }
                 if isResponseFailed {
-                    self.alertWithOneAction(title: "Error", msg: "ServerError", btnTitle: "Ok")
+                    self.alertWithOneAction(title: "Error", msg: self.viewModel.errorString, btnTitle: "Ok") { _ in
+                        self.viewModel.fetchData()
+                    }
                 }
         }).disposed(by: bag)
-    }
-    //MARK: - TableView
-    func bindDataToTableView () {
-        viewModel.usersListObservable.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { [weak self] row, users, cell in
-            guard let self = self else { return }
-            cell.textLabel?.text = self.viewModel.newsList[row].userName
-        }.disposed(by: bag)
     }
 }

@@ -11,18 +11,21 @@ import Combine
 class UseCase: UseCaseProtocol {
     static let shared = UseCase()
     private init () {}
-    func fetchData() -> AnyPublisher<[Users], Never> {
-        guard let url = URL(string: "https://api.github.com/users") else {
-            return Just([])
-                .eraseToAnyPublisher()
-        }
-        let puplisher = URLSession.shared.dataTaskPublisher(for: url)
+    func fetchData() -> AnyPublisher<[Users], Error> {
+        let url = URL(string: "https://api.github.com/users")
+        return URLSession.shared.dataTaskPublisher(for: url!)
             .map({$0.data})
             .decode(type: [Users].self, decoder: JSONDecoder())
-            .replaceError(with: [])
+            .mapError({ error in
+                switch error {
+                case is Swift.DecodingError:
+                    return error
+                default:
+                    return error
+                }
+            })
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
-        return puplisher
     }
 }

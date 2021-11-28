@@ -9,8 +9,9 @@ import Foundation
 
 struct Users {
     let userName: String?
+    
     enum PostCodingKeys: String, CodingKey {
-        case userName = "lgin"
+        case userName = "login"
     }
 }
 //MARK: - Decodable init

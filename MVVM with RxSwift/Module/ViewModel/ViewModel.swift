@@ -16,6 +16,7 @@ class ViewModel {
     var newsList = [Users]()
     var loadingBehaviour = BehaviorRelay<Bool>(value: false)
     var errorBehaviour = BehaviorRelay<Bool>(value: false)
+    var errorString = ""
     private let usersListSubjet = PublishSubject<[Users]>()
     var usersListObservable: Observable<[Users]> {
         return usersListSubjet
@@ -27,17 +28,13 @@ class ViewModel {
         loadingBehaviour.accept(true)
         observer = useCase.fetchData()
             .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else {return}
                 switch completion {
                 case .finished:
-                    guard let self = self else {return}
                     self.loadingBehaviour.accept(false)
-                    if self.newsList.isEmpty {
-                        self.errorBehaviour.accept(true)
-                    } else {
-                        self.errorBehaviour.accept(false)
-                    }
                 case .failure(let error):
-                    print(error)
+                    self.errorString = error.localizedDescription
+                    self.errorBehaviour.accept(true)
                 }
             }, receiveValue: { [weak self] model in
                 guard let self = self else {return}
