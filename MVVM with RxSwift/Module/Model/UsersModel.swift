@@ -1,5 +1,5 @@
 //
-//  Model.swift
+//  UsersModel.swift
 //  MVVM with RxSwift
 //
 //  Created by Ali Fayed on 28/11/2021.

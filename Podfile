@@ -10,6 +10,7 @@ target 'MVVM with RxSwift' do
    pod 'RxCocoa', '6.2.0'
    pod 'RxDataSources', '~> 5.0'
    pod 'MBProgressHUD', '~> 1.2.0'
+   pod 'OHHTTPStubs/Swift'
 
   target 'MVVM with RxSwiftTests' do
     inherit! :search_paths

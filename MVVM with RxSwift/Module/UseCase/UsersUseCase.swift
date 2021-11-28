@@ -1,5 +1,5 @@
 //
-//  Usecase.swift
+//  UsersUseCase.swift
 //  MVVM with RxSwift
 //
 //  Created by Ali Fayed on 28/11/2021.
@@ -8,10 +8,10 @@
 import Foundation
 import Combine
 
-class UseCase: UseCaseProtocol {
-    static let shared = UseCase()
+class UsersUseCase: UsersUseCaseProtocol {
+    static let shared = UsersUseCase()
     private init () {}
-    func fetchData() -> AnyPublisher<[Users], Error> {
+    func fetchUsers() -> AnyPublisher<[Users], Error>? {
         let url = URL(string: "https://api.github.com/users")
         return URLSession.shared.dataTaskPublisher(for: url!)
             .map({$0.data})
